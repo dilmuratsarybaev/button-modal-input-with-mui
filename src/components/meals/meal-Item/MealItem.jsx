@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { styled as styledMuiMaterial } from "@mui/material";
 import { Button } from "../../UI/Button";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/Vector3.svg";
 import { useDispatch } from "react-redux";
 import { addToBasket } from "../../../store/basket/basketSlice";
 import { TextField } from "@mui/material";
 import { styled as styledStyledMui } from "@mui/system";
+
 export const MealItem = ({ meal }) => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState(1);
@@ -59,35 +61,37 @@ export const MealItem = ({ meal }) => {
   );
 };
 
-const StyledItemInfo = styled.div`
-  p {
-    font-family: "Poppins";
-    font-style: italic;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    color: #222222;
-  }
-  margin-bottom: 20px;
-  margin-top: 24px;
-`;
-const StyledTitle = styled.h4`
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 27px;
-  color: #222222;
-  margin-bottom: 4px;
-`;
-const StyledNumber = styled.span`
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 30px;
-  color: #ad5502;
-`;
+const StyledItemInfo = styledMuiMaterial("div")(({ theme }) => ({
+  " p": {
+    fontFamily: theme.typography.fontFamily,
+    fontStyle: "italic",
+    fontWeight: 400,
+    fontSize: "16px",
+    lineHeight: "24px",
+    color: theme.palette.secondary.dark,
+  },
+  marginBottom: "20px",
+  marginTop: " 24px",
+}));
+
+const StyledTitle = styledMuiMaterial("h4")(({ theme }) => ({
+  fontFamily: "Poppins",
+  fontStyle: "normal",
+  fontWeight: 600,
+  fontSize: "18px",
+  lineHeight: "27px",
+  color: theme.palette.secondary.dark,
+  marginBottom: " 4px",
+}));
+
+const StyledNumber = styledMuiMaterial("span")(({ theme }) => ({
+  fontFamily: "Poppins",
+  fontStyle: " normal",
+  fontWeight: 700,
+  fontSize: " 20px",
+  lineHeight: "30px",
+  color: theme.palette.secondary.light,
+}));
 
 const ContainerCount = styled.div`
   display: flex;
@@ -112,18 +116,20 @@ const Container = styled.li`
     margin-bottom: 0rem;
   }
 `;
-const Label = styled.label`
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 27px;
-  color: #222222;
-  margin-right: 20px;
-`;
+const Label = styledMuiMaterial("label")(({ theme }) => ({
+  fontFamily: "Poppins",
+  fontStyle: "normal",
+  fontWeight: 600,
+  fontSize: "18px",
+  lineHeight: " 27px",
+  color: theme.palette.secondary.dark,
+  marginRight: "20px",
+}));
 
 const StyledInputTextField = styledStyledMui(TextField)({
   width: "4rem",
   fontSize: "1.5rem",
   marginBottom: "12px",
+  color: "#fff",
+  backgroundColor:"#fff"
 });

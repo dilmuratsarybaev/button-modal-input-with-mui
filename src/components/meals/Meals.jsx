@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import { styled } from "@mui/material";
 import { getMeals } from "../../store/meals/mealsSlice";
 import { MealItem } from "./meal-Item/MealItem";
 
@@ -25,10 +25,10 @@ export const Meals = () => {
   );
 };
 
-const Card = styled.div`
-  width: 64.9375rem;
-  background: #ffffff;
-  border-radius: 16px;
-  margin: 135px auto;
-  padding: 18px 40px 10px 40px;
-`;
+const Card = styled("div")(({ theme }) => ({
+  width: "64.9375rem",
+  background: theme.palette.secondary.main,
+  borderRadius: "16px",
+  margin: "135px auto",
+  padding: "18px 40px 10px 40px",
+}));

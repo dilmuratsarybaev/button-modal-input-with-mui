@@ -1,15 +1,18 @@
+import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { getTheme } from "../../lib/constants/Theme";
+import { getTheme } from "../../lib/constants/theme";
 import { getBasket } from "../../store/basket/basketSlice";
+import { uiActions } from "../../store/ui/uiSlice";
 import { BasketButton } from "../basket/BasketButton";
-
-export const Header = ({ onShowBasket }) => {
+import { styled as styledMui } from "@mui/system";
+import { styled as styleMuiMaterial } from "@mui/material";
+export const Header = ({ onShowBasket, ...rest }) => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.basket.items);
+  const theme = useSelector((state) => state.ui.themeMode);
   const [animationClass, setAnimationClass] = useState("");
-
   useEffect(() => {
     dispatch(getBasket());
   }, [dispatch]);
@@ -32,52 +35,63 @@ export const Header = ({ onShowBasket }) => {
     };
   }, [items]);
 
+  const themeChangeHandler = () => {
+    const themeMode = theme === "light" ? "dark" : "light";
+    dispatch(uiActions.changeTheme(themeMode));
+  };
   return (
-    <Container>
+    <Container {...rest}>
       <Logo>ReactMeals</Logo>
-      <BasketButton
-        className={animationClass}
-        onClick={onShowBasket}
-        count={calculateSumAmout()}
-      />
+      <BasketContainer>
+        <BasketButton
+          className={animationClass}
+          onClick={onShowBasket}
+          count={calculateSumAmout()}
+        />
+        <StyledMuiButton onClick={themeChangeHandler} variant="contained">
+          {theme === "light" ? "Turn dark mode" : "Turn light mode"}
+        </StyledMuiButton>
+      </BasketContainer>
     </Container>
   );
 };
-
-const Container = styled.header`
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  width: 100%;
-  height: 101px;
-  background-color: ${getTheme().palette.primary.main};
+const BasketContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0px 120px;
-
-  .bump {
-    animation: bump 300ms ease-out;
-  }
-
-  @keyframes bump {
-    0% {
-      transform: scale(1);
-    }
-    10% {
-      transform: scale(0.9);
-    }
-    30% {
-      transform: scale(1.1);
-    }
-    50% {
-      transform: scale(1.15);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
 `;
+const Container = styleMuiMaterial("header")(({ theme }) => ({
+  position: "fixed",
+  zIndex: 1,
+  top: 0,
+  width: "100%",
+  height: "101px",
+  display: " flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: " 0px 120px",
+  backgroundColor: theme.palette.primary.main,
+  ".bump ": {
+    animation: "bump 300ms ease-out",
+  },
+
+  " @keyframes bump": {
+    "0% ": {
+      transform: "scale(1)",
+    },
+    "10% ": {
+      transform: "scale(0.9)",
+    },
+    " 30% ": {
+      transform: "scale(1.1)",
+    },
+    "50%": {
+      transform: " scale(1.15)",
+    },
+    " 100%": {
+      transform: "scale(1)",
+    },
+  },
+}));
 
 const Logo = styled.p`
   font-family: "Poppins";
@@ -87,3 +101,8 @@ const Logo = styled.p`
   line-height: 57px;
   color: #ffffff;
 `;
+const StyledMuiButton = styleMuiMaterial(Button)(({ theme }) => ({
+  fontSize: "10px",
+  background: theme.palette.primary.light,
+  marginLeft: "10px",
+}));
